@@ -1,4 +1,4 @@
-# php-orm - v1
+# php-orm - v1 - based on PDO php.
 Easy and basic orm with php. Powerfull and help you to access the data allways mapping with a model.
 <br>
 How to start?<br>
