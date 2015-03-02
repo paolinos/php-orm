@@ -64,99 +64,83 @@ When your model extends from <b>DBObject</b>, you have some static method and ot
 	<li>update</li>
 </ul>
 Your static method are to find your model. You only need to call your classname model and the method.<br>
-<div>
-	<h3>get</h3>
-	```
-	static function get($where=[], $order=[],$limit=0,$skip=0)
-	```
-	When:<br>
-	$where => array. The first parameter is the query, and the other are the values to replace.
-	<br>Example:<br>
-	```
-	//	Find by name='jhon'
-	$where = array("name='{0}'","jhon");
 
-	//	Find by firstname='jhon' and lastname='doe'
-	$where = array("firstname='{0}' AND lastname='{1}'","jhon","doe");
-	$where = array("firstname=like '{0}' AND lastname like '{1}'","jhon","doe");
+<h3>get</h3>
+```
+static function get($where=[], $order=[],$limit=0,$skip=0)
+```
+When:<br>
+$where => array. The first parameter is the query, and the other are the values to replace.
+<br>Example:<br>
 
-	User::get($where)
+```
+//	Find by name='jhon'
+$where = array("name='{0}'","jhon");
 
-	```
-	$order => is an array too, but you need to send the parameter and the order.
-	<br>Example:<br>
-	```
+//	Find by firstname='jhon' and lastname='doe'
+$where = array("firstname='{0}' AND lastname='{1}'","jhon","doe");
+$where = array("firstname=like '{0}' AND lastname like '{1}'","jhon","doe");
 
-	$order = array("id"=>"ASC");
+User::get($where)
+```
+$order => is an array too, but you need to send the parameter and the order.
+<br>Example:<br>
+```
+$order = array("id"=>"ASC");
 
-	$order = array("id"=>"DESC");
+$order = array("id"=>"DESC");
 
-	$order = array("id"=>"ASC", "name"=>"DESC");
+$order = array("id"=>"ASC", "name"=>"DESC");
 
-	User::get([],$order);
-	```
+User::get([],$order);
+```
+Then $limit and $skip, are numbers values.<br>
+<h3>getOne</h3>
+```
+static function getOne($where=[], $order=[])
+```
+Has the same filter like <b>get</b> and allways with get a One fild as result.
+```
+//	Find by id=5
+User::getOne(array("id={0}",5));
 
-	Then $limit and $skip, are numbers values.
-</div>
+//	Get the oldest user
+User::getOne([], array("bornDate"=>"ASC"));
 
-<div>
-	<h3>getOne</h3>
-	```
-	static function getOne($where=[], $order=[])
-	```
-	Has the same filter like <b>get</b> and allways with get a One fild as result.
-	```
-	//	Find by id=5
-	User::getOne(array("id={0}",5));
-
-	//	Get the oldest user
-	User::getOne([], array("bornDate"=>"ASC"));
-
-	```
-</div>
+```
 
 <br><br>
 One time that we have the model, we can update, or we can create one.
-<div>
-	<h3>save</h3>
-	```
-	$user = new User();
-	$user->firstname = "John";
-	$user->lastname = "Mclane";
-	$user->bornDate = '1950-01-01';
-	$user->save();
-	``` 
+<h3>save</h3>
+```
+$user = new User();
+$user->firstname = "John";
+$user->lastname = "Mclane";
+$user->bornDate = '1950-01-01';
+$user->save();
+``` 
 
-	The <b>save</b> method will insert the user in the db.
-</div>
+The <b>save</b> method will insert the user in the db.<br>
 
-
-<div>
-	<h3>update</h3>
-	To update a model, first we need to get the model, then change de values, and then update!
-	```
-	$user = User::getOne(array("firstname='{0}'' AND lastname='{1}'","John","Mclane"))
-	if($user != null)
-	{
-		$user->lastname = "McClane";
-		$user->update();
-	}
-	``` 
-</div>
-
-<div>
-	<h3>delete</h3>
-	```
-	$user = User::getOne(array("firstname='{0}'' AND lastname='{1}'","John","Mclane"))
-	if($user != null)
-	{
-		$user->delete();
-	}
-	``` 
-</div>
-
+<h3>update</h3>
+To update a model, first we need to get the model, then change de values, and then update!
+```
+$user = User::getOne(array("firstname='{0}'' AND lastname='{1}'","John","Mclane"))
+if($user != null)
+{
+	$user->lastname = "McClane";
+	$user->update();
+}
+``` 
+<h3>delete</h3>
+```
+$user = User::getOne(array("firstname='{0}'' AND lastname='{1}'","John","Mclane"))
+if($user != null)
+{
+	$user->delete();
+}
+``` 
 Also you have a:
-
 ```
 try{
 	DBConnector::Inst()->beginTransaction();	
